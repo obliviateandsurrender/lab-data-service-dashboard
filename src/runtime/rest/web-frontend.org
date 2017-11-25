@@ -56,6 +56,7 @@
 
 #+NAME: auth_api
 #+BEGIN_SRC js 
+
 var AuthAPI = {
   login: function() {
     window.location.href = '/login';
@@ -941,20 +942,19 @@ populated.  Here =check_function('sections')= returns the list of sections.
   $(document).on('click', '#home-btn-show-sections', function(clickEvent) {
     populate_tables_section(check_function('sections'));
   });
-};
 #+END_SRC
 
 #+NAME: onClick_event_handler9
 #+BEGIN_SRC js
-$('#update-discipline-sbt').on('click', function(clickEvent){
-  var alive_data = {
+  $('#update-discipline-sbt').on('click', function(clickEvent){
+    var alive_data = {
       discipline_id: $(this).attr('ids'),
       name: $('#edit-new-discipline-name').val()
     };
 		var data = JSON.stringify(alive_data);
     check_function3('disciplines?discipline_id='+$(this).attr('ids'),JSON.parse(data));
   });
-
+  
   $('#update-developer-sbt').on('click', function(clickEvent){
     var alive_data = {
       email: $(this).attr('email'),
@@ -963,7 +963,7 @@ $('#update-discipline-sbt').on('click', function(clickEvent){
 		var data = JSON.stringify(alive_data);
     check_function3('developers?email='+$(this).attr('email'),JSON.parse(data));
   });
-
+  
   $('#update-section-sbt').on('click', function(clickEvent){
     var alive_data = {
       s_id: $(this).attr('ids'),
@@ -972,7 +972,7 @@ $('#update-discipline-sbt').on('click', function(clickEvent){
 		var data = JSON.stringify(alive_data);
     check_function3('sections?s_id='+$(this).attr('ids'),JSON.parse(data));
   });
-
+  
   $('#update-institute-sbt').on('click', function(clickEvent){
     var alive_data = {
       institute_id: $(this).attr('ids'),
@@ -981,117 +981,116 @@ $('#update-discipline-sbt').on('click', function(clickEvent){
 		var data = JSON.stringify(alive_data);
     check_function3('institutes?institute_id='+$(this).attr('ids'),JSON.parse(data));
   });
-
 #+END_SRC
 
 ** Update Lab and Experiment
 
 #+NAME: update_lab_experiment
 #+BEGIN_SRC js
- var select = document.querySelectorAll('[class$="update-lab-exp"]');
+  var select = document.querySelectorAll('[class$="update-lab-exp"]');
   [].forEach.call(select, function (button) {
     $('#'+button.id).on('click', function(clickEvent) {
-       	var developer = [];
-	      var hostings_info = [];
-	      var asset = [];
-        id = button.id.split('-')[1];
-        ed = id.substr(0,3);
-
-	institute_id_box = $('#update-'+id+'-institute-id-select');
-    institute_id = institute_id_box[0].selectedOptions[0].value;
-
-	discipline_id_box = $('#update-'+id+'-discipline-id-select');
-    discipline_id = discipline_id_box[0].selectedOptions[0].value;
-
-    integration_level_box = $('#update-'+id+'-integration-level-box');
-	integration_level = parseInt(integration_level_box[0].value);
-
-    $('#update-'+id+'-developer-id-select :selected').each(function(){
-      var new_dev={};
-      new_dev.name = $(this).attr('name');
-      new_dev.email = $(this).val();
-      developer.push(new_dev);
-    });  
-
-	 $('#update-'+id+'-container #update-developer-new-'+ed+'-id').find("li").each(function(){
+      var developer = [];
+      var hostings_info = [];
+      var asset = [];
+      id = button.id.split('-')[1];
+      ed = id.substr(0,3);
+      
+      institute_id_box = $('#update-'+id+'-institute-id-select');
+      institute_id = institute_id_box[0].selectedOptions[0].value;
+      
+      discipline_id_box = $('#update-'+id+'-discipline-id-select');
+      discipline_id = discipline_id_box[0].selectedOptions[0].value;
+      
+      integration_level_box = $('#update-'+id+'-integration-level-box');
+      integration_level = parseInt(integration_level_box[0].value);
+      
+      $('#update-'+id+'-developer-id-select :selected').each(function(){
+        var new_dev={};
+        new_dev.name = $(this).attr('name');
+        new_dev.email = $(this).val();
+        developer.push(new_dev);
+      });  
+      
+      $('#update-'+id+'-container #update-developer-new-'+ed+'-id').find("li").each(function(){
         var input = $(this).find('input');
         var new_dev={};
 			  new_dev.name = input[0].value ;
 			  new_dev.email = input[1].value;
 			  if(new_dev.name && new_dev.email)
-			  developer.push(new_dev);
+          developer.push(new_dev);
 			});
-
-	 $('#update-new-hosting-'+ed+'-div').find("li").each(function(){
-              var input = $(this).find('input');
-              var new_hos={};
+      
+      $('#update-new-hosting-'+ed+'-div').find("li").each(function(){
+        var input = $(this).find('input');
+        var new_hos={};
 			  new_hos.hosted_on = input[2].value ;
 			  new_hos.hosted_url = input[0].value;
 			  new_hos.hosting_status = input[1].value;
 			  if(new_hos.hosted_on && new_hos.hosted_url && new_hos.hosting_status)
-			  hostings_info.push(new_hos);
+          hostings_info.push(new_hos);
 			});
-   
-
-
-  $('#update-'+id+'-asset-id-select :selected').each(function(){
-    var new_ass={};
-		  new_ass.path = $(this).val() ;
-			new_ass.asset_type = $(this).attr('asset_type');
-      asset.push(new_ass);
-  });  
-  
-
-	 $('#update-'+id+'-container #update-asset-new'+ed+'-id').find("li").each(function(){
-              var input = $(this).find('input');
-              var new_ass={};
+      
+      
+      
+      $('#update-'+id+'-asset-id-select :selected').each(function(){
+        var new_ass={};
+        new_ass.path = $(this).val() ;
+        new_ass.asset_type = $(this).attr('asset_type');
+        asset.push(new_ass);
+      });  
+      
+      
+      $('#update-'+id+'-container #update-asset-new'+ed+'-id').find("li").each(function(){
+        var input = $(this).find('input');
+        var new_ass={};
 			  new_ass.path = input[0].value ;
 			  new_ass.asset_type = input[1].value;
 			  if(new_ass.path && new_ass.asset_type)
-			  asset.push(new_ass);
+          asset.push(new_ass);
 			});
-
-	var section1 = [];
-  var section2 = [];  
-  $('#update-'+id+'-section-id-select :selected').each(function(){
-      name = $(this).val();
-      var new_sec = {};
-      new_sec.name = name;
-      section1.push(name);
-      section2.push(new_sec);
-  });
-
-	 $('#update-'+id+'-container #update-section-new-'+ed+'-id').find("li").each(function(){
+      
+      var section1 = [];
+      var section2 = [];  
+      $('#update-'+id+'-section-id-select :selected').each(function(){
+        name = $(this).val();
+        var new_sec = {};
+        new_sec.name = name;
+        section1.push(name);
+        section2.push(new_sec);
+      });
+      
+      $('#update-'+id+'-container #update-section-new-'+ed+'-id').find("li").each(function(){
         var input = $(this).find('input');
         var new_sec={};
         name = input[0].value ;
         new_sec.name = name;
 			  if(name) {
-         section1.push(name);
-         section2.push(new_sec);
+          section1.push(name);
+          section2.push(new_sec);
         }
 			});
-
-  switch(id) {
-    case 'lab' : section = section2; break;
-    case 'experiment' : section = section1; break;
-  }
-
-    var p = {}
-    var alive_data = {
-      id: $('#update-'+id+'-id-box').val(),
-      overview: $('#update-'+id+'-overview-box').val(),
-      name: $('#update-'+id+'-name-box').val(),
-      discipline_id: discipline_id,
-      institute_id: institute_id,
-	    assets:asset,
-	    hosting_info:hostings_info,
-	    developers:developer,
-      integration_level: integration_level,
-	    sections:section
-    };
-    p[id] = alive_data
-		var data = JSON.stringify(p);
+      
+      switch(id) {
+        case 'lab' : section = section2; break;
+        case 'experiment' : section = section1; break;
+      }
+      
+      var p = {}
+      var alive_data = {
+        id: $('#update-'+id+'-id-box').val(),
+        overview: $('#update-'+id+'-overview-box').val(),
+        name: $('#update-'+id+'-name-box').val(),
+        discipline_id: discipline_id,
+        institute_id: institute_id,
+        assets:asset,
+        hosting_info:hostings_info,
+        developers:developer,
+        integration_level: integration_level,
+        sections:section
+      };
+      p[id] = alive_data
+      var data = JSON.stringify(p);
       call = id+'s?'+ed+'_id='+$(this).attr('ids');
       check_function3(call,JSON.parse(data));
     });  
@@ -1119,12 +1118,12 @@ LDS dashboard.
       new_ent[id+'_id'] = $('#add-'+id+'-id-box').val();
       new_ent.assets = [];
       $('#add-'+id+'-asset-id-select :selected').each(function(){
-		      new_ent.assets.push($(this).val()) ;
+        new_ent.assets.push($(this).val()) ;
       });  
-       check_function2(id,JSON.parse(JSON.stringify(new_ent)));
+      check_function2(id,JSON.parse(JSON.stringify(new_ent)));
     });
   });
-
+  
 #+END_SRC
 
 ** Add Section
@@ -1135,125 +1134,129 @@ dashboard.
 
 #+NAME: add_section
 #+BEGIN_SRC js
- $('#add-section-sbt').on('click', function() {
+  $('#add-section-sbt').on('click', function() {
     var new_ent = {};
     new_ent.name = $('#add-section-name-box').val();
     check_function2('section',JSON.parse(JSON.stringify(new_ent)));
   });
 
+
 #+END_SRC
 ** Add Lab and Experiment
 #+NAME: add_lab_experiment
 #+BEGIN_SRC js
-var select = document.querySelectorAll('[class$="add-lab-exp"]');
-[].forEach.call(select, function (button) {
-  $('#'+button.id).on('click', function(clickEvent) {
-    var developer = [];
-    var hostings_info = [];
-    var asset = [];
-    id = button.id.split('-')[1];
-    ed = id.substr(0,3);
-    
-    institute_id_box = $('#add-'+id+'-institute-id-select');
-    institute_id = institute_id_box[0].selectedOptions[0].value;
-    
-    discipline_id_box = $('#add-'+id+'-discipline-id-select');
-    discipline_id = discipline_id_box[0].selectedOptions[0].value;
-    
-    integration_level_box = $('#add-'+id+'-integration-level-box');
-    integration_level = parseInt(integration_level_box[0].value);
-
-    $('#add-'+id+'-developer-id-select :selected').each(function(){
-      var new_dev={};
-      new_dev.name = $(this).attr('name');
-      new_dev.email = $(this).val();
-      developer.push(new_dev);
-    });  
-    
-    $('#add-'+id+'-container #add-developer-new-'+ed+'-id').find("li").each(function(){
-      var input = $(this).find('input');
-      var new_dev={};
-      new_dev.name = input[0].value ;
-      new_dev.email = input[1].value;
-      if(new_dev.name && new_dev.email)
-	developer.push(new_dev);
-    });
-    
-    $('#add-new-hosting-'+ed+'-div').find("li").each(function(){
-      var input = $(this).find('input');
-      var new_hos={};
-      new_hos.hosted_on = input[2].value ;
-      new_hos.hosted_url = input[0].value;
-      new_hos.hosting_status = input[1].value;
-      if(new_hos.hosted_on && new_hos.hosted_url && new_hos.hosting_status)
-	hostings_info.push(new_hos);
-    });
-    
-
-
-    $('#add-'+id+'-asset-id-select :selected').each(function(){
-      var new_ass={};
-      new_ass.path = $(this).val() ;
-      new_ass.asset_type = $(this).attr('asset_type');
-      asset.push(new_ass);
-  });  
-    
-    
-    $('#add-'+id+'-container #add-asset-new-'+ed+'-div').find("li").each(function(){
-      var input = $(this).find('input');
-      var new_ass={};
-      new_ass.path = input[0].value ;
-      new_ass.asset_type = input[1].value;
-      if(new_ass.path && new_ass.asset_type)
-	asset.push(new_ass);
-    });
-
-    var section1 = [];
-    var section2 = [];  
-    $('#add-'+id+'-section-id-select :selected').each(function(){
-      name = $(this).val();
-      var new_sec = {};
-      new_sec.name = name;
-      section1.push(name);
-      section2.push(new_sec);
-    });
-    
-    $('#add-'+id+'-container #add-section-new-'+ed+'-id').find("li").each(function(){
-      var input = $(this).find('input');
-      var new_sec={};
-      name = input[0].value ;
-      new_sec.name = name;
-      if(name) {
-        section1.push(name);
-        section2.push(new_sec);
-      }
-    });
-    
-    switch(id) {
-    case 'lab' : section = section2; break;
-    case 'experiment' : section = section1; break;
-    }
-
-    var p = {}
-    var alive_data = {
-      id: $('#add-'+id+'-id-box').val(),
-      overview: $('#add-'+id+'-overview-box').val(),
-      name: $('#add-'+id+'-name-box').val(),
-      discipline_id: discipline_id,
-      institute_id: institute_id,
-      assets:asset,
-      hosting_info:hostings_info,
-      developers:developer,
-      integration_level: integration_level,
-      sections:section
-    };
-    p[id] = alive_data
-    var data = JSON.stringify(p);
-    
-    check_function2(id,JSON.parse(data));
-  });  
-}); 
-
+  var select = document.querySelectorAll('[class$="add-lab-exp"]');
+    [].forEach.call(select, function (button) {
+      $('#'+button.id).on('click', function(clickEvent) {
+        var developer = [];
+        var hostings_info = [];
+        var asset = [];
+        id = button.id.split('-')[1];
+        ed = id.substr(0,3);
+        
+        institute_id_box = $('#add-'+id+'-institute-id-select');
+        institute_id = institute_id_box[0].selectedOptions[0].value;
+        
+        discipline_id_box = $('#add-'+id+'-discipline-id-select');
+        discipline_id = discipline_id_box[0].selectedOptions[0].value;
+        
+        integration_level_box = $('#add-'+id+'-integration-level-box');
+        integration_level = parseInt(integration_level_box[0].value);
+        
+        $('#add-'+id+'-developer-id-select :selected').each(function(){
+          var new_dev={};
+          new_dev.name = $(this).attr('name');
+          new_dev.email = $(this).val();
+          developer.push(new_dev);
+        });  
+        
+        $('#add-'+id+'-container #add-developer-new-'+ed+'-id').find("li").each(function(){
+          var input = $(this).find('input');
+          var new_dev={};
+          new_dev.name = input[0].value ;
+          new_dev.email = input[1].value;
+          if(new_dev.name && new_dev.email)
+            developer.push(new_dev);
+        });
+        
+        $('#add-new-hosting-'+ed+'-div').find("li").each(function(){
+          var input = $(this).find('input');
+          var new_hos={};
+          new_hos.hosted_on = input[2].value ;
+          new_hos.hosted_url = input[0].value;
+          new_hos.hosting_status = input[1].value;
+          if(new_hos.hosted_on && new_hos.hosted_url && new_hos.hosting_status)
+            hostings_info.push(new_hos);
+        });
+        
+        
+        
+        $('#add-'+id+'-asset-id-select :selected').each(function(){
+          var new_ass={};
+          new_ass.path = $(this).val() ;
+          new_ass.asset_type = $(this).attr('asset_type');
+          asset.push(new_ass);
+        });  
+        
+        
+        $('#add-'+id+'-container #add-asset-new-'+ed+'-div').find("li").each(function(){
+          var input = $(this).find('input');
+          var new_ass={};
+          new_ass.path = input[0].value ;
+          new_ass.asset_type = input[1].value;
+          if(new_ass.path && new_ass.asset_type)
+            asset.push(new_ass);
+        });
+        
+        var section1 = [];
+        var section2 = [];  
+        $('#add-'+id+'-section-id-select :selected').each(function(){
+          name = $(this).val();
+          var new_sec = {};
+          new_sec.name = name;
+          section1.push(name);
+          section2.push(new_sec);
+        });
+        
+        $('#add-'+id+'-container #add-section-new-'+ed+'-id').find("li").each(function(){
+          var input = $(this).find('input');
+          var new_sec={};
+          name = input[0].value ;
+          new_sec.name = name;
+          if(name) {
+            section1.push(name);
+            section2.push(new_sec);
+          }
+        });
+        
+        switch(id) {
+          case 'lab' : section = section2; break;
+          case 'experiment' : section = section1; break;
+        }
+        
+        var p = {}
+        var alive_data = {
+          id: $('#add-'+id+'-id-box').val(),
+          overview: $('#add-'+id+'-overview-box').val(),
+          name: $('#add-'+id+'-name-box').val(),
+          discipline_id: discipline_id,
+          institute_id: institute_id,
+          assets:asset,
+          hosting_info:hostings_info,
+          developers:developer,
+          integration_level: integration_level,
+          sections:section
+        };
+        if(id == 'lab') {
+          p.experiments = ["e97754"];
+        }
+        p[id] = alive_data
+        var data = JSON.stringify(p);
+        
+        check_function2(id,JSON.parse(data));
+      });  
+    }); 
+};
 #+END_SRC
 
 ** Update User and Roles Dropdown
@@ -1518,9 +1521,9 @@ populated.  It takes the updated data and populates the table accordingly.
 
 #+NAME: populate_tables_dev
 #+BEGIN_SRC js
-var populate_tables_dev = function(data) {
+var populate_tables_dev = function(entity, data) {
   $('#developer-table').find('tr:not(:first)').remove();
-  entity = 'developer';
+  entity = 'developers';
   var buttons = document.querySelectorAll('[id^=Nav]');
   [].forEach.call(buttons, function (button) {
     $('#'+button.id).remove();
@@ -1528,30 +1531,30 @@ var populate_tables_dev = function(data) {
   if (data.length-1) {
     var foo = document.getElementById("show-"+entity+'-container');
     page_data = JSON.parse(data[1]);
-    var button1 = document.createElement("button");
-    if (page_data.nextPageLink){
-    button1.innerHTML = "Next";  
-    button1.setAttribute('id','NavnextButtton'+entity)
-      $(button1).on('click', function(clickEvent) {
-        populate_over_tables_call(entity,check_function(page_data.nextPageLink.slice(1)));   
-      });
-      foo.appendChild(button1);
-    }
     if (page_data.previousPageLink) {
       var button2 = document.createElement("button");
       button2.setAttribute('id','NavbackButton'+entity)
       button2.innerHTML = "Back";
       $(button2).on('click', function(clickEvent) {
-        populate_over_tables_call(entity,check_function(page_data.previousPageLink.slice(1)));
+        populate_tables_dev(entity,check_function(page_data.previousPageLink.slice(1)));
       });
       foo.appendChild(button2); 
+    }
+    if (page_data.nextPageLink){
+      var button1 = document.createElement("button");
+      button1.innerHTML = "Next";  
+      button1.setAttribute('id','NavnextButtton'+entity)
+      $(button1).on('click', function(clickEvent) {
+        populate_tables_dev(entity,check_function(page_data.nextPageLink.slice(1)));   
+      });
+      foo.appendChild(button1);
     }
   } 
   var tableRef = document.getElementById('developer-table').getElementsByTagName('tbody')[0];
   for (var i in data[0]) {
-      var newRow = tableRef.insertRow(-1);
+    var newRow = tableRef.insertRow(-1);
       var newCell = newRow.insertCell(-1);
-      newCell.appendChild(document.createTextNode(Number(i)+1));
+      newCell.appendChild(document.createTextNode(data[0][i].id));
       var newCell = newRow.insertCell(-1);
       newCell.appendChild(document.createTextNode(data[0][i].name.name));
       var newCell = newRow.insertCell(-1);
@@ -1600,29 +1603,29 @@ var populate_tables_section = function(data) {
     var foo = document.getElementById("show-"+entity+'-container');
     page_data = JSON.parse(data[1]);
     var button1 = document.createElement("button");
-    if (page_data.nextPageLink){
-    button1.innerHTML = "Next";  
-    button1.setAttribute('id','NavnextButtton'+entity)
-      $(button1).on('click', function(clickEvent) {
-        populate_over_tables_call(entity,check_function(page_data.nextPageLink.slice(1)));   
-      });
-      foo.appendChild(button1);
-    }
     if (page_data.previousPageLink) {
       var button2 = document.createElement("button");
       button2.setAttribute('id','NavbackButton'+entity)
       button2.innerHTML = "Back";
       $(button2).on('click', function(clickEvent) {
-        populate_over_tables_call(entity,check_function(page_data.previousPageLink.slice(1)));
+        populate_tables_section(entity,check_function(page_data.previousPageLink.slice(1)));
       });
       foo.appendChild(button2);
+    }
+    if (page_data.nextPageLink){
+    button1.innerHTML = "Next";  
+    button1.setAttribute('id','NavnextButtton'+entity)
+      $(button1).on('click', function(clickEvent) {
+        populate_tables_section(entity,check_function(page_data.nextPageLink.slice(1)));   
+      });
+      foo.appendChild(button1);
     }
   } 
   var tableRef = document.getElementById('section-table').getElementsByTagName('tbody')[0];
   for (var i in data[0]) {
       var newRow = tableRef.insertRow(-1);
       var newCell = newRow.insertCell(-1);
-      newCell.appendChild(document.createTextNode(Number(i)+1));
+      newCell.appendChild(document.createTextNode(data[0][i].id));
       var newCell = newRow.insertCell(-1);
       newCell.appendChild(document.createTextNode(data[0][i].id));
       var newCell = newRow.insertCell(-1);
@@ -1736,7 +1739,7 @@ operation on the respective entity.
 
 #+NAME: populate_over_tables_call
 #+BEGIN_SRC js
- var populate_over_tables_call = function(entity, data) {
+var populate_over_tables_call = function(entity, data) {
     $('#'+entity.slice(0,-1) +'-table').find('tr:not(:first)').remove();
     var buttons = document.querySelectorAll('[id^=Nav]');
     [].forEach.call(buttons, function (button) {
@@ -1745,15 +1748,6 @@ operation on the respective entity.
     if (data.length-1) {
       var foo = document.getElementById("show-"+entity+'-container');
       page_data = JSON.parse(data[1]);
-      var button1 = document.createElement("button");
-      if (page_data.nextPageLink){
-      button1.innerHTML = "Next";  
-      button1.setAttribute('id','NavnextButtton'+entity)
-        $(button1).on('click', function(clickEvent) {
-          populate_over_tables_call(entity,check_function(page_data.nextPageLink.slice(1)));   
-        });
-        foo.appendChild(button1);
-      }
       if (page_data.previousPageLink) {
         var button2 = document.createElement("button");
         button2.setAttribute('id','NavbackButton'+entity)
@@ -1763,13 +1757,21 @@ operation on the respective entity.
         });
         foo.appendChild(button2);
       }
+      if (page_data.nextPageLink){
+        var button1 = document.createElement("button");
+        button1.innerHTML = "Next";  
+        button1.setAttribute('id','NavnextButtton'+entity)
+        $(button1).on('click', function(clickEvent) {
+          populate_over_tables_call(entity,check_function(page_data.nextPageLink.slice(1)));   
+        });
+        foo.appendChild(button1);
+      }
     } 
     var tableRef = document.getElementById(entity.slice(0,-1) +'-table').getElementsByTagName('tbody')[0];
   for (var i in data[0]) {
-      console.log(data[0][i])
       var newRow = tableRef.insertRow(-1);
       var newCell = newRow.insertCell(-1);
-      newCell.appendChild(document.createTextNode(Number(i)+1));
+      newCell.appendChild(document.createTextNode(data[0][i].id));
       var newCell = newRow.insertCell(-1);
       newCell.setAttribute('contenteditable',false);
       newCell.appendChild(document.createTextNode(data[0][i][entity.slice(0,3)+'_id']));
@@ -1781,36 +1783,67 @@ operation on the respective entity.
       newCell.appendChild(document.createTextNode(data[0][i].overview));
       var newCell = newRow.insertCell(-1);
       newCell.setAttribute('contenteditable',false);
-      newCell.appendChild(document.createTextNode(data[0][i].institute.institute_id));
-      var newCell = newRow.insertCell(-1);
-      newCell.setAttribute('contenteditable',false);
-      newCell.appendChild(document.createTextNode(data[0][i].developers));
-      var newCell = newRow.insertCell(-1);
-      newCell.setAttribute('contenteditable',false);
-      newCell.appendChild(document.createTextNode(data[0][i].sections));
-      var newCell = newRow.insertCell(-1);
-      newCell.setAttribute('contenteditable',false);
-      newCell.appendChild(document.createTextNode(data[0][i].assets.path));
-      var newCell = newRow.insertCell(-1);
-      newCell.setAttribute('contenteditable',false);
       newCell.appendChild(document.createTextNode(data[0][i].discipline.discipline_name));
       var newCell = newRow.insertCell(-1);
       newCell.setAttribute('contenteditable',false);
-      newCell.appendChild(document.createTextNode(data[0][i].hosting_info));
-      
+      newCell.appendChild(document.createTextNode(data[0][i].institute.institute_id));
       var newCell = newRow.insertCell(-1);
-      var updateButton = document.createElement('button');
-      updateButton.setAttribute('id','update-'+entity.slice(0,-1)+'-pre-sbt-'+i);      
-      updateButton.setAttribute('ids',data[0][i][entity.slice(0,3)+'_id']);
-      updateButton.appendChild(document.createTextNode('Update'));
-      newCell.appendChild(updateButton);
+      newCell.setAttribute('contenteditable',false);
+      var develop = ''
+      for (var id in data[0][i].developers) {
+        if (develop != '') {
+          develop += ', '
+        }
+        develop += data[0][i].developers[id].name.name;
+      }
+      newCell.appendChild(document.createTextNode(develop));
+      var newCell = newRow.insertCell(-1);
+      newCell.setAttribute('contenteditable',false);
+      var sect = ''
+      for (var id in data[0][i].sections) {
+        if (sect != '') {
+          sect += ', '
+        }
+        sect += data[0][i].sections[id].name;
+      }
+      newCell.appendChild(document.createTextNode(sect));
+      var newCell = newRow.insertCell(-1);
+      newCell.setAttribute('contenteditable',false);
+      var ass = ''
+      for (var id in data[0][i].assets) {
+        if (ass != '') {
+          ass += ', '
+        }
+        ass += data[0][i].assets[id].path;
+      }
+      newCell.appendChild(document.createTextNode(ass));
+      var newCell = newRow.insertCell(-1);
+      newCell.setAttribute('contenteditable',false);
+      var host = ''
+      for (var id in data[0][i].hosting_info) {
+        if (host != '') {
+          host += ', '
+        }
+        host += data[0][i].hosting_info[id].hosted_url;
+      }
+      newCell.appendChild(document.createTextNode(host));
 
-      var newCell = newRow.insertCell(-1);
-      var removeButton = document.createElement('button');
-      removeButton.setAttribute('id','remove-'+entity.slice(0,-1)+'-pre-sbt-'+i);
-      removeButton.setAttribute('ids', data[0][i][entity.slice(0,3)+'_id']);
-      removeButton.appendChild(document.createTextNode('Delete'));
-      newCell.appendChild(removeButton);
+      if (session_detail.role != 'guest') {
+
+        var newCell = newRow.insertCell(-1);
+        var updateButton = document.createElement('button');
+        updateButton.setAttribute('id','update-'+entity.slice(0,-1)+'-pre-sbt-'+i);      
+        updateButton.setAttribute('ids',data[0][i][entity.slice(0,3)+'_id']);
+        updateButton.appendChild(document.createTextNode('Update'));
+        newCell.appendChild(updateButton);
+        
+        var newCell = newRow.insertCell(-1);
+        var removeButton = document.createElement('button');
+        removeButton.setAttribute('id','remove-'+entity.slice(0,-1)+'-pre-sbt-'+i);
+        removeButton.setAttribute('ids', data[0][i][entity.slice(0,3)+'_id']);
+        removeButton.appendChild(document.createTextNode('Delete'));
+        newCell.appendChild(removeButton);
+      }
   }
   updateLdsHelperFunction(entity.slice(0,-1));
 };
@@ -2158,17 +2191,26 @@ Switch statements are used to make the code compact and elegant.
 #+NAME: dropdown_fillup
 #+BEGIN_SRC js
 var dropdown_fillup = function() {
-
+  function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+  }
   var select = document.querySelectorAll('[id$="-id-select"]');
-  [].forEach.call(select, function (dropdown) {
-    console.log(dropdown)
-    console.log(dropdown.id.split('-')[2])
-    var newOptions = check_function(dropdown.id.split('-')[2]+'s');
-    $('option',dropdown).remove();
-      $.each(newOptions, function(text, val) { 
-        
-        console.log(val);
+  var drops = [];
+  var drop = [];
+  [].forEach.call(select, function (dropdown){
+    drops.push(dropdown.id.split('-')[2]+'s');
+  });
+  
+  drops = drops.filter(onlyUnique);
+  
+  for (var i in drops) {
+    drop[i] = check_function(drops[i]);
+  }
 
+  [].forEach.call(select, function (dropdown) {
+    var newOptions = drop[drops.indexOf(dropdown.id.split('-')[2]+'s')];
+    $('option',dropdown).remove();
+    $.each(newOptions[0], function(text, val) { 
         switch(dropdown.id.split('-')[2]) {
           case 'developer': var option = new Option(val.email.email, val.email.email); break;
           case 'asset': var option = new Option(val.path, val.path); break;
@@ -2181,6 +2223,7 @@ var dropdown_fillup = function() {
       });
   });
 };
+
 #+END_SRC
 
 ** On load
@@ -5555,7 +5598,7 @@ generate HTML to do the CRUD operations on LDS database.
 *** Show Labs
 #+NAME: show_labs_spec
 #+BEGIN_SRC json :tangle ./app/static/js/main.json 
-        {
+       {
           "typeofdiv":"div",
           "id":"show-labs-container",
           "class":"hidden",
@@ -5602,7 +5645,19 @@ generate HTML to do the CRUD operations on LDS database.
                         },
                         {
                           "typeofdiv":"th",
-                          "innerHTML":"Integration Status"
+                          "innerHTML":"Developers"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Sections"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Assets"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Hosting URL"
                         }
                       ]
                     }
@@ -5633,7 +5688,7 @@ generate HTML to do the CRUD operations on LDS database.
 *** Show Experiments
 #+NAME: show_experiments_spec
 #+BEGIN_SRC json :tangle ./app/static/js/main.json 
-        {
+       {
           "typeofdiv":"div",
           "id":"show-experiments-container",
           "class":"hidden",
@@ -5680,8 +5735,20 @@ generate HTML to do the CRUD operations on LDS database.
                         },
                         {
                           "typeofdiv":"th",
-                          "innerHTML":"Integration Status"
-                        }
+                          "innerHTML":"Developers"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Sections"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Assets"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Hosting URL"
+                        }                        
                       ]
                     }
                   ]
@@ -5707,6 +5774,7 @@ generate HTML to do the CRUD operations on LDS database.
             }
           ]
         },
+
 #+END_SRC
 
 *** Show Assets
@@ -5776,7 +5844,7 @@ generate HTML to do the CRUD operations on LDS database.
 *** Show Institutes
 #+NAME: show_institutes_spec
 #+BEGIN_SRC json :tangle ./app/static/js/main.json 
-        {
+         {
           "typeofdiv":"div",
           "id":"show-institutes-container",
           "class":"hidden",
@@ -5838,6 +5906,7 @@ generate HTML to do the CRUD operations on LDS database.
             }
           ]
         },
+
 #+END_SRC
 
 *** Show Disciplines
@@ -6105,6 +6174,63 @@ generate HTML to do the CRUD operations on LDS database.
    This is the JSON specification for the guest dashboard.
 #+NAME: guest_spec_file
 #+BEGIN_SRC json :tangle ./app/static/js/main.json
+  "guest_nav":[
+    {
+      "typeofdiv":"div",
+      "id":"side-nav-container",
+      "class":"sidenav hidden",
+      "elements":[
+        {
+          "typeofdiv":"div",
+          "class":"list-group table-of-contents",
+          "elements":[
+            {
+              "typeofdiv":"button",
+              "id":"home-btn-update-profile",
+              "class":"list-group-item",
+              "innerHTML":" Update Profile "
+            },
+            {
+              "typeofdiv":"button",
+              "id":"home-btn-show-users",
+              "class":"list-group-item",
+              "innerHTML":" Show Users "
+            },
+            {
+              "typeofdiv":"button",
+              "id":"home-btn-show-roles",
+              "class":"list-group-item",
+              "innerHTML":" Show Roles "
+            },
+            {
+              "typeofdiv":"button",
+              "id":"home-btn-show-labs",
+              "class":"lds-show-over-lab list-group-item",
+              "innerHTML":" Show Labs "
+            },
+            {
+              "typeofdiv":"button",
+              "id":"home-btn-show-experiments",
+              "class":"lds-show-over-exp list-group-item",
+              "innerHTML":" Show Experiments "
+            },
+            {
+              "typeofdiv":"button",
+              "id":"home-btn-show-institutes",
+              "class":"lds-show-asset-inst list-group-item",
+              "innerHTML":" Show Institute "
+            },
+            {
+              "typeofdiv":"button",
+              "id":"home-btn-show-disciplines",
+              "class":"lds-show-asset-disc list-group-item",
+              "innerHTML":" Show Discipline "
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "guest_dash":[
     {
       "typeofdiv":"div",
@@ -6183,11 +6309,495 @@ generate HTML to do the CRUD operations on LDS database.
               "class":"error hidden"
             }
           ]
+        },
+        {
+          "typeofdiv":"div",
+          "id":"show-users-container",
+          "class":"hidden",
+          "elements":[
+            {
+              "typeofdiv":"p",
+              "innerHTML":"Show Users"
+            },
+            {
+              "typeofdiv":"table",
+              "class":"table table-striped",
+              "id":"user-table",
+              "elements":[
+                {
+                  "typeofdiv":"thead",
+                  "class":"thead",
+                  "elements":[
+                    {
+                      "typeofdiv":"tr",
+                      "elements":[
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Id"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Name"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Email"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Role"
+                        },
+                        {
+                          "typeofdiv":"th"
+                        },
+                        {
+                          "typeofdiv":"th"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "typeofdiv":"tbody",
+                  "class":"tbody  "
+                }
+              ]
+            },
+            {
+              "typeofdiv":"ul",
+              "id":"show-users",
+              "elements":[
+
+              ]
+            },
+            {
+              "typeofdiv":"label",
+              "id":"error-box",
+              "value":"Error",
+              "class":"error hidden"
+            }
+          ]
+        },
+        {
+          "typeofdiv":"div",
+          "id":"show-roles-container",
+          "class":"hidden",
+          "elements":[
+            {
+              "typeofdiv":"p",
+              "innerHTML":"Show Roles"
+            },
+            {
+              "typeofdiv":"table",
+              "class":"table table-striped",
+              "id":"role-table",
+              "elements":[
+                {
+                  "typeofdiv":"thead",
+                  "class":"thead",
+                  "elements":[
+                    {
+                      "typeofdiv":"tr",
+                      "elements":[
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Id"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Name"
+                        },
+                        {
+                          "typeofdiv":"th"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "typeofdiv":"tbody",
+                  "class":"tbody  "
+                }
+              ]
+            },
+            {
+              "typeofdiv":"ul",
+              "id":"show-roles",
+              "elements":[
+
+              ]
+            },
+            {
+              "typeofdiv":"label",
+              "id":"error-box",
+              "value":"Error",
+              "class":"error hidden"
+            }
+          ]
+        },
+        {
+          "typeofdiv":"div",
+          "id":"show-labs-container",
+          "class":"hidden",
+          "elements":[
+            {
+              "typeofdiv":"p",
+              "innerHTML":"Show Labs"
+            },
+            {
+              "typeofdiv":"table",
+              "class":"table table-striped",
+              "id":"lab-table",
+              "elements":[
+                {
+                  "typeofdiv":"thead",
+                  "class":"thead",
+                  "elements":[
+                    {
+                      "typeofdiv":"tr",
+                      "elements":[
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Id"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Lab Id"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Lab Name"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Overview"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Discipline"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Institute"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Developers"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Sections"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Assets"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Hosting URL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "typeofdiv":"tbody",
+                  "class":"tbody  "
+                }
+              ]
+            },
+            {
+              "typeofdiv":"ul",
+              "id":"show-labs",
+              "elements":[
+
+              ]
+            },
+            {
+              "typeofdiv":"label",
+              "id":"error-box",
+              "value":"Error",
+              "class":"error hidden"
+            }
+          ]
+        },
+
+        {
+          "typeofdiv":"div",
+          "id":"show-experiments-container",
+          "class":"hidden",
+          "elements":[
+            {
+              "typeofdiv":"p",
+              "innerHTML":"Show Experiments"
+            },
+            {
+              "typeofdiv":"table",
+              "class":"table table-striped",
+              "id":"experiment-table",
+              "elements":[
+                {
+                  "typeofdiv":"thead",
+                  "class":"thead",
+                  "elements":[
+                    {
+                      "typeofdiv":"tr",
+                      "elements":[
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Id"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Experiment Id"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Experiment Name"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Overview"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Discipline"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Institute"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Developers"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Sections"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Assets"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Hosting URL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "typeofdiv":"tbody",
+                  "class":"tbody  "
+                }
+              ]
+            },
+            {
+              "typeofdiv":"ul",
+              "id":"show-experiments",
+              "elements":[
+
+              ]
+            },
+            {
+              "typeofdiv":"label",
+              "id":"error-box",
+              "value":"Error",
+              "class":"error hidden"
+            }
+          ]
+        },
+
+        {
+          "typeofdiv":"div",
+          "id":"show-assets-container",
+          "class":"hidden",
+          "elements":[
+            {
+              "typeofdiv":"p",
+              "innerHTML":"Show Assets"
+            },
+            {
+              "typeofdiv":"table",
+              "class":"table table-striped",
+              "id":"asset-table",
+              "elements":[
+                {
+                  "typeofdiv":"thead",
+                  "class":"thead",
+                  "elements":[
+                    {
+                      "typeofdiv":"tr",
+                      "elements":[
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Id"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Asset Type"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Asset Path"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "typeofdiv":"tbody",
+                  "class":"tbody  "
+                }
+              ]
+            },
+            {
+              "typeofdiv":"ul",
+              "id":"show-assets",
+              "elements":[
+
+              ]
+            },
+            {
+              "typeofdiv":"label",
+              "id":"error-box",
+              "value":"Error",
+              "class":"error hidden"
+            }
+          ]
+        },
+
+        {
+          "typeofdiv":"div",
+          "id":"show-institutes-container",
+          "class":"hidden",
+          "elements":[
+            {
+              "typeofdiv":"p",
+              "innerHTML":"Show Institutes"
+            },
+            {
+              "typeofdiv":"table",
+              "class":"table table-striped",
+              "id":"institute-table",
+              "elements":[
+                {
+                  "typeofdiv":"thead",
+                  "class":"thead",
+                  "elements":[
+                    {
+                      "typeofdiv":"tr",
+                      "elements":[
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Id"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Asset"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Institute Id"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Institute Name"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "typeofdiv":"tbody",
+                  "class":"tbody  "
+                }
+              ]
+            },
+            {
+              "typeofdiv":"ul",
+              "id":"show-institutes",
+              "elements":[
+
+              ]
+            },
+            {
+              "typeofdiv":"label",
+              "id":"error-box",
+              "value":"Error",
+              "class":"error hidden"
+            }
+          ]
+        },
+
+        {
+          "typeofdiv":"div",
+          "id":"show-disciplines-container",
+          "class":"hidden",
+          "elements":[
+            {
+              "typeofdiv":"p",
+              "innerHTML":"Show Disciplines"
+            },
+            {
+              "typeofdiv":"table",
+              "class":"table table-striped",
+              "id":"discipline-table",
+              "elements":[
+                {
+                  "typeofdiv":"thead",
+                  "class":"thead",
+                  "elements":[
+                    {
+                      "typeofdiv":"tr",
+                      "elements":[
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Id"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Asset"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Discipline Id"
+                        },
+                        {
+                          "typeofdiv":"th",
+                          "innerHTML":"Discipline Name"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "typeofdiv":"tbody",
+                  "class":"tbody  "
+                }
+              ]
+            },
+            {
+              "typeofdiv":"ul",
+              "id":"show-disciplines",
+              "elements":[
+
+              ]
+            },
+            {
+              "typeofdiv":"label",
+              "id":"error-box",
+              "value":"Error",
+              "class":"error hidden"
+            }
+          ]
         }
       ]
     }
   ]
 }
+
 #+END_SRC
 
 

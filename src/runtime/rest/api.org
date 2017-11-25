@@ -1783,6 +1783,7 @@ if __name__ == '__main__':
 @api.route('/lds_auth_get', methods=['GET'])
 @login_required
 def lds_connect1():
+    print str(datetime.now())
     try:
         payload = request.args.get('call')
     except:
@@ -1797,15 +1798,15 @@ def lds_connect1():
 
     os.environ['http_proxy'] = os.environ['https_proxy'] = ''
     r = requests.get(LDS+payload, verify = False)
-    print r.headers['X-Pagination']
+    
     try:
         page = r.headers['X-Pagination']
     except:
         page = None
     os.environ['http_proxy'] = http_proxy
     os.environ['https_proxy'] = https_proxy
-    return jsonify(success=True, data=r.json(), page=page), 200
-
+    
+    return jsonify(success=True, data=r.json(), page=page), r.status_code
 #+END_SRC
 **** Test Cases
 #+NAME:
@@ -1933,8 +1934,7 @@ def lds_connect2():
                           headers=headers)
     os.environ['http_proxy'] = http_proxy
     os.environ['https_proxy'] = https_proxy
-
-    return jsonify(success=True, message="Life is broken"), 200
+    return jsonify(success=True, message="Life is broken"), r.status_code
 
 #+END_SRC
 **** Test Cases

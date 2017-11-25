@@ -23,6 +23,7 @@
 
 #+NAME: configure
 #+BEGIN_SRC python 
+
 app = Flask(__name__)
 app.config.from_object("runtime.config.flask_app_config")
 app.config['TRAP_HTTP_EXCEPTIONS']=True
@@ -38,7 +39,7 @@ oauth = OAuth()
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 configure_logging(app)
 
-LDS = 'https://lds.com/'
+LDS = 'https://lds.com'
 #+END_SRC
   
 
@@ -100,16 +101,14 @@ def configure_logging(app):
 * SMTP Flask Mail
 #+NAME: smptp
 #+BEGIN_SRC python 
-app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = 'example@gmail.com'
-app.config['MAIL_PASSWORD'] = 'emailspassword'
-ADMINS = 'example@gmail.com'
+app.config['MAIL_USERNAME'] = 'admin@email.com'
+app.config['MAIL_PASSWORD'] = 'admin'
+ADMINS = ['admin@email.com']
 mail = Mail(app)
-
 #+END_SRC
 
 
@@ -257,6 +256,7 @@ if __name__ == '__main__':
   
 #+NAME: imports
 #+BEGIN_SRC python
+
 # Import flask modules and template operators
 from flask import Flask, render_template, request, session, jsonify
 from flask_oauth import OAuth
