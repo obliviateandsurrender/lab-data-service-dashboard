@@ -1798,7 +1798,11 @@ def lds_connect1():
 
     os.environ['http_proxy'] = os.environ['https_proxy'] = ''
     r = requests.get(LDS+payload, verify = False)
+<<<<<<< HEAD
     
+=======
+    print r.headers['X-Pagination']
+>>>>>>> 45d4f1c4c0eb840ed7b2a223f27ed87a995b0422
     try:
         page = r.headers['X-Pagination']
     except:

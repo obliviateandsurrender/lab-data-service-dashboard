@@ -39,7 +39,11 @@ oauth = OAuth()
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 configure_logging(app)
 
+<<<<<<< HEAD
 LDS = 'https://lds.com'
+=======
+LDS = 'https://lds.com/'
+>>>>>>> 45d4f1c4c0eb840ed7b2a223f27ed87a995b0422
 #+END_SRC
   
 
@@ -105,9 +109,15 @@ app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
+<<<<<<< HEAD
 app.config['MAIL_USERNAME'] = 'admin@email.com'
 app.config['MAIL_PASSWORD'] = 'admin'
 ADMINS = ['admin@email.com']
+=======
+app.config['MAIL_USERNAME'] = 'example@gmail.com'
+app.config['MAIL_PASSWORD'] = 'emailspassword'
+ADMINS = 'example@gmail.com'
+>>>>>>> 45d4f1c4c0eb840ed7b2a223f27ed87a995b0422
 mail = Mail(app)
 #+END_SRC
 
